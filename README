@@ -3,3 +3,4 @@ weTunes - The collaborative music music player
 dependencies:
   - django
   - python-mpd
+  - django-auth-ldap
