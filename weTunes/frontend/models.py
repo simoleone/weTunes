@@ -5,6 +5,5 @@ from django.db import models
 class Vote(models.Model):
     user = models.CharField(max_length = 128)
     songid = models.IntegerField()
-    upvote = models.BooleanField()
     updated = models.DateField(auto_now = True)
-
+    played = models.BooleanField(default = False)
