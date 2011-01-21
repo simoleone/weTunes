@@ -16,11 +16,15 @@ def index(request):
     c = Context({
         'song': song,
         'volume': volume,
-        'playlist': playlist
+        'playlist': playlist,
+        'username': request.user.username,
     })
     return HttpResponse(t.render(c))
 
-def search(request, field, value):
+def search(request, field = None, value = None):
+    if 'field' in request.REQUEST and 'value' in request.REQUEST:
+        field = request.REQUEST['field']
+        value = request.REQUEST['value']
     # field can be 'artist', 'title', or 'album', 'any'
     # this is garunteed by routing and so isn't checked
     t = loader.get_template('search.html')
@@ -48,6 +52,7 @@ def ajax_mpd_status(request):
 def vote(request, filename):
     Vote.objects.get_or_create(user = request.user.username, filename = filename, played = False)
     Queue().save_queue()
+    MPC().play()
     return index(request)
 
 @login_required
