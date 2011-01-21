@@ -4,7 +4,6 @@ from django.db import models
 
 class Vote(models.Model):
     user = models.CharField(max_length = 128)
-    songid = models.IntegerField()
-    upvote = models.BooleanField()
+    filename = models.CharField(max_length = 1024)
     updated = models.DateField(auto_now = True)
-
+    played = models.BooleanField(default = False)

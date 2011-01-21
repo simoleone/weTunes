@@ -1,9 +1,16 @@
 from django.template import Context, loader
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
+import frontend.lib.mpc
+import forntend.lib.queue
 
 def index(request):
     t = loader.get_template('index.html')
+
+    song = MPC().currentsong()
+    playlist = Queue().get_playlist()
+    volume = MPC().status()['volume']
+
     c = Context({
         'song': song,
         'volume': volume,
