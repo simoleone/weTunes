@@ -1,3 +1,4 @@
 settings.py
 wetunes.sqlite
 *.pyc
+*.swp
