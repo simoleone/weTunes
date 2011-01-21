@@ -9,9 +9,9 @@ urlpatterns = patterns('',
     # important to preserve the garunteed field because it is not checked again
     (r'^search/?$', 'frontend.views.search'),
     (r'^search/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.search'),
-    (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
-    (r'^playpause$', 'frontend.views.playpause'),
-    (r'^updatedb$', 'frontend.views.updatedb'),
+    (r'^control/setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
+    (r'^control/playpause$', 'frontend.views.playpause'),
+    (r'^control/updatedb$', 'frontend.views.updatedb'),
     (r'^ajax/mpd_status$', 'frontend.views.ajax_mpd_status'),
 
     # login stuff

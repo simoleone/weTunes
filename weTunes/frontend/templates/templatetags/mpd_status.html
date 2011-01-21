@@ -41,7 +41,7 @@
       min:0,
       orientation:'vertical',
       value: 0, 
-      stop: function(event, ui) { $.ajax({url:"/setvolume/"+ui.value});}
+      stop: function(event, ui) { $.ajax({url:"/control/setvolume/"+ui.value});}
     });
 
     $("#playpausebutton").button({
@@ -52,7 +52,7 @@
     })
     .click(function(){
       $.ajax({
-        url:"/playpause"
+        url:"/control/playpause"
       });
     });
 
