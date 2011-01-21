@@ -60,11 +60,12 @@
 
     $("#saveblock").button().
       click(function(){
-        var blockfiles = $("#blockbuilder .songfilemeta").map(function(){return $(this).text();});
+        var arr = [];
+        $("#blockbuilder .songfilemeta").each(function(){arr.push($(this).text());});
         $.ajax({
           type: "POST",
           url: "/ajax/createblock",
-          data: JSON.stringify(blockfiles),
+          data: JSON.stringify(arr),
           success: function(){$("#blockbuilder .song").remove();}
         }); // ajax
     });

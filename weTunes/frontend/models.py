@@ -1,5 +1,6 @@
 from django.db import models
 from datetime import datetime, timedelta
+from frontend.lib.mpc import MPC
 
 # Create your models here.
 
@@ -30,7 +31,7 @@ class Block(models.Model):
         tracks = Track.objects.filter(block__exact = self)
         time = 0
         for t in tracks:
-            time += MPC().find('file', t.filename)
+            time += int(MPC().find('file', t.filename)[0]['time'])
         self.length = time
         self.save()
 

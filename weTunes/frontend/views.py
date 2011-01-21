@@ -2,9 +2,10 @@ from django.shortcuts import render_to_response
 from django.template import Context, loader, RequestContext
 from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 from frontend.lib.mpc import MPC
 from frontend.lib.queue import Queue
-from frontend.models import Vote
+from frontend.models import Vote, Block, Track
 import json
 
 def index(request):
@@ -52,8 +53,18 @@ def ajax_search(request):
 
 "Creates a block from provided file list"
 @login_required
+@csrf_exempt
 def ajax_createblock(request):
-    block = json.loads(request.POST.keys()[0])
+    songfiles = json.loads(request.raw_post_data)
+    b = Block(length=0)
+    b.save()
+    i=0
+    for s in songfiles:
+        Track(block=b, filename=s, track_number=i).save()
+        i=i+1
+    b.update_length()
+    Vote(block=b, user=request.user.username).save()
+    Queue().save_queue()
     return HttpResponse("OK")
 
 @login_required
