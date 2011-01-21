@@ -15,7 +15,8 @@ def index(request):
     c = Context({
         'song': song,
         'volume': volume,
-        'playlist': playlist
+        'playlist': playlist,
+        'username': request.user.username,
     })
     return HttpResponse(t.render(c))
 
@@ -37,6 +38,7 @@ def search(request, field = None, value = None):
 def vote(request, filename):
     Vote.objects.get_or_create(user = request.user.username, filename = filename, played = False)
     Queue().save_queue()
+    MPC().play()
     return index(request)
 
 @login_required

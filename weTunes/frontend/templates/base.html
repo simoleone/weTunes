@@ -11,6 +11,18 @@
 <body>
   <div id="header">
     {% mpd_status %}
+    <div id="searchbox">
+      <form action="/search" method="post">
+        <input type=text name=value size=40 />
+        <select name=field>
+          <option value='any'>any</option>
+          <option value='artist'>artist</option>
+          <option value='title'>title</option>
+          <option value='album'>album</option>
+        </select>
+        <input type=submit value=Search />
+      </form>
+    </div>
   </div>
 
   <div id="content">
