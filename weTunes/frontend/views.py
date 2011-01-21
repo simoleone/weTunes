@@ -19,7 +19,7 @@ def index(request):
     })
     return HttpResponse(t.render(c))
 
-def search(request):
+def search(request, field, value):
     return False
 
 @login_required
