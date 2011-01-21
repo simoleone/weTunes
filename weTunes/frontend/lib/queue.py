@@ -14,6 +14,8 @@ class Queue:
     def get_queue(self):
         if self.queue is not None:
             return self.queue
+
+        self.update_played()
         
         unplayed_votes = Vote.objects.filter(played__exact = False)
         self.tracks = {}     # filename => set(self.users_voted)
@@ -94,6 +96,32 @@ class Queue:
 
     def save_queue(self):
         self.get_queue()
-        MPC().clear()
+        # clear everything from MPC's queue except the current song
+        current_song = MPC().currentsong()
+        current_playlist = MPC().playlistid()
+        if not current_song or 'file' not in current_song:
+            current_song = {'file': None}
+        for s in current_playlist:
+            if s['file'] != current_song['file']:
+                MPC().deleteid(s['id'])
+
         for filename in self.queue:
             MPC().findadd('file', filename)
+
+    def update_played(self):
+        current_playlist = MPC().playlistinfo()
+        current_song = MPC().currentsong()
+        if not current_song or 'file' not in current_song:
+            return
+        played_songs = []
+        for s in current_playlist:
+            played_songs.append(s)
+            if s['file'] == current_song['file']:
+                # we've reached the currently-playing song
+                self.mark_played(played_songs)
+                return
+
+    def mark_played(self, played_songs):
+        for s in played_songs:
+            Vote.objects.filter(played__exact = False, filename__exact = s['file']).update(played = True)
+
