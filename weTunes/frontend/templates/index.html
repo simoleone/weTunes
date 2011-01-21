@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 
-{% block content %}
-Currently playing: {{song}}
+{% block title %} - Index{% endblock title %}
 
-Next up:
+{% block content %}
 <table>
     <tr><th>#</th><th>Artist</th><th>Title</th><th>Votes</th><th>Vote</th></tr>
     {% for s in playlist %}

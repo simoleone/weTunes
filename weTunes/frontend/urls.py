@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from django.conf import settings
 
 
 urlpatterns = patterns('',
@@ -9,16 +10,17 @@ urlpatterns = patterns('',
     (r'^search/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.search'),
     (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
     (r'^playpause$', 'frontend.views.playpause'),
+    (r'^updatedb$', 'frontend.views.updatedb'),
 
     # login stuff
-    (r'^account/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
-    (r'^account/logout$', 'django.contrib.auth.views.logout', {'template_name': 'account/logout.html'}),
+    (r'^accounts/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
+    (r'^accounts/logout$', 'django.contrib.auth.views.logout', {'template_name': 'account/logout.html'}),
+
+    # path for static content
+    (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': settings.STATIC_ROOT}),
 
     # default
     (r'^$', 'frontend.views.index'),
-
-    # Example:
-    # (r'^weTunes/', include('weTunes.foo.urls')),
 
     # Uncomment the admin/doc line below to enable admin documentation:
     # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
