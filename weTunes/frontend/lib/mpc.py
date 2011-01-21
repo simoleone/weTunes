@@ -18,10 +18,10 @@ class MPC:
 
     "Create an mpdclient using default connection"
     def __init__(self):
-        # attempt an operation on existing client to make sure it's alive
+        # ping existing client to ensure its alive
         try:
             if MPC.__client:
-                MPC.__client.status()
+                MPC.__client.ping()
         except ConnectionError, SocketError:
             MPC.__client = None
 
