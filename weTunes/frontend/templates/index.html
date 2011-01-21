@@ -7,7 +7,7 @@ Next up:
 <table>
     <tr><th>#</th><th>Artist</th><th>Title</th><th>Votes</th><th>Vote</th></tr>
     {% for s in playlist %}
-        <tr><td>{{forloop.counter}}</td><td>{{s.artist}}</td><td>{{s.title}}</td><td>{{s.votes}}</td><td><a href="/vote/{{s.id}}">+</a></tr>
+        <tr><td>{{forloop.counter}}</td><td>{{s.artist}}</td><td>{{s.title}}</td><td>{{s.votes}}</td><td><a href="/vote/{{s.file}}">+</a></tr>
     {% endfor %}
 </table>
 

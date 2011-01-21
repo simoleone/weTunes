@@ -32,8 +32,9 @@ def search(request, field, value):
 
 @login_required
 def vote(request, filename):
-    Vote.get_or_create(user = request.user.username, filename = filename, played = False)
+    Vote.objects.get_or_create(user = request.user.username, filename = filename, played = False)
     Queue().save_queue()
+    return index(request)
 
 @login_required
 def unvote(request):
