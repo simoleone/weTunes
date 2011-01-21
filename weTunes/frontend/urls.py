@@ -5,7 +5,8 @@ urlpatterns = patterns('',
     # actual frontend stuff
     (r'^vote/(?P<filename>.*)$', 'frontend.views.vote'),
     (r'^unvote/(?P<filename>.*)$', 'frontend.views.unvote'),
-    (r'^search/(?P<field>(artist|title|album))/(?P<value>.*)$', 'frontend.views.search'),
+    # important to preserve the garunteed field because it is not checked again
+    (r'^search/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.search'),
     (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
     (r'^playpause$', 'frontend.views.playpause'),
 

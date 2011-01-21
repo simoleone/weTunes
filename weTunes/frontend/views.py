@@ -20,7 +20,15 @@ def index(request):
     return HttpResponse(t.render(c))
 
 def search(request, field, value):
-    return False
+    # field can be 'artist', 'title', or 'album', 'any'
+    # this is garunteed by routing and so isn't checked
+    t = loader.get_template('search.html')
+
+    results = MPC().search(field, value)
+    c = Context({
+        'results': results,
+    })
+    return HttpResponse(t.render(c))
 
 @login_required
 def vote(request, filename):
@@ -40,3 +48,5 @@ def setvolume(request, level):
 def playpause(request):
     MPC().pause()
     return index(request)
+
+
