@@ -5,7 +5,7 @@ urlpatterns = patterns('',
     # actual frontend stuff
     (r'^vote/(?P<filename>.*)$', 'frontend.views.vote'),
     (r'^unvote/(?P<filename>.*)$', 'frontend.views.unvote'),
-    (r'^search/(?P<terms>.*)$', 'frontend.views.search'),
+    (r'^search/(?P<field>(artist|title|album))/(?P<value>.*)$', 'frontend.views.search'),
     (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
     (r'^playpause$', 'frontend.views.playpause'),
 
@@ -14,7 +14,7 @@ urlpatterns = patterns('',
     (r'^account/logout$', 'django.contrib.auth.views.logout', {'template_name': 'account/logout.html'}),
 
     # default
-    (r'', 'frontend.views.index'),
+    (r'^$', 'frontend.views.index'),
 
     # Example:
     # (r'^weTunes/', include('weTunes.foo.urls')),
