@@ -1,0 +1,23 @@
+
+
+
+Currently playing: {{song}}
+
+Next up:
+<table>
+    <tr><th>#</th><th>Artist</th><th>Title</th><th>Votes</th><th>Vote</th></tr>
+    {% row = 1 %}
+    {% for s in playlist: %}
+        <tr><td>{{row}}</td><td>{{s.artist}}</td><td>{{s.title}}</td><td>{{s.votes}}</td><td><a href="/vote/{{s.id}}">+</a></tr>
+        {% row = row + 1 %}
+    {% endfor %}
+</table>
+
+Volume:
+{% for i in range(0,110,10) %}
+    {% if math.abs(i - volume) <= 5 %}
+        {{i}}
+    {% else %}
+        <a href="/changevolume/{{i}}">{{i}}</a>
+    <% endif %}
+{% endfor %}
