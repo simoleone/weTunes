@@ -1,12 +1,41 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<script type="text/javascript">
+  function process_results(data) {
+    $("#searchresults").html("<tr><th>Title</th><th>Artist</th><th>Album</th><th>Votes</th><th>Vote</th></tr>");
+    for (s in data) {
+      $("#searchresults").append("<tr><td>"+data[s].title+"</td><td>"+data[s].artist+"</td><td>"+data[s].album+"</td><td>"+data[s].votes+"</td><td><a href='/vote/"+data[s].file+"'>+</a></tr>");
+    }
+  }
+
+  $(document).ready(function() {
+    $("#searchform").submit(function() {
+      $.ajax({
+        type: "POST",
+        url: "/ajax/search",
+        data: $("#searchform").serialize(),
+        success: process_results,
+        dataType: "json"
+      }); // ajax
+      return false;
+    }); // searchsubmit click
+
+    // check if we were posted to this page in the first place,
+    // and thus need to prefill and make the ajax call right away
+    var field = "{{field}}";
+    var value = "{{value}}";
+    if (field.length > 0 && value.length > 0) {
+      $("#searchform select[name=field]").val(field);
+      $("#searchform input[name=value]").val(value);
+      $("#searchform").submit();
+    }
+  }); // doc ready
+</script>
+
 <h2>Search results:</h2>
-<table>
-    <tr><th>#</th><th>Title</th><th>Artist</th><th>Album</th><th>Votes</th><th>Vote</th></tr>
-    {% for s in results %}
-        <tr><td>{{forloop.counter}}</td><td>{{s.title}}</td><td>{{s.artist}}</td><td>{{s.album}}</td><td>{{s.votes}}</td><td><a href="/vote/{{s.file}}">+</a></tr>
-    {% endfor %}
+<table id="searchresults">
 </table>
 
 {% endblock content %}

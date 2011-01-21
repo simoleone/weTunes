@@ -1,5 +1,6 @@
-from django.template import Context, loader
-from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.template import Context, loader, RequestContext
+from django.http import HttpResponse, HttpResponseBadRequest
 from django.contrib.auth.decorators import login_required
 from frontend.lib.mpc import MPC
 from frontend.lib.queue import Queue
@@ -7,8 +8,6 @@ from frontend.models import Vote
 import json
 
 def index(request):
-    t = loader.get_template('index.html')
-
     song = MPC().currentsong()
     playlist = Queue().get_playlist()
     volume = MPC().status()['volume']
@@ -19,21 +18,16 @@ def index(request):
         'playlist': playlist,
         'username': request.user.username,
     })
-    return HttpResponse(t.render(c))
+    return render_to_response("index.html", c, context_instance=RequestContext(request))
 
-def search(request, field = None, value = None):
+def search(request):
+    c = Context()
     if 'field' in request.REQUEST and 'value' in request.REQUEST:
-        field = request.REQUEST['field']
-        value = request.REQUEST['value']
-    # field can be 'artist', 'title', or 'album', 'any'
-    # this is garunteed by routing and so isn't checked
-    t = loader.get_template('search.html')
-
-    results = MPC().search(field, value)
-    c = Context({
-        'results': results,
-    })
-    return HttpResponse(t.render(c))
+        c = Context({
+            'field': request.REQUEST['field'],
+            'value': request.REQUEST['value'],
+        })
+    return render_to_response("search.html", c, context_instance=RequestContext(request))
 
 "Returns JSON data on the current state of mpd"
 def ajax_mpd_status(request):
@@ -46,6 +40,14 @@ def ajax_mpd_status(request):
     c.update(MPC().status())
     c['cursong'].update(MPC().currentsong())
 
+    return HttpResponse(json.dumps(c))
+
+"Returns JSON data for a search"
+def ajax_search(request):
+    if not request.POST['field'] in ['artist','title','album','any']:
+        raise HttpResponseBadRequest()
+
+    c = MPC().search(request.POST['field'], request.POST['value'])
     return HttpResponse(json.dumps(c))
 
 @login_required

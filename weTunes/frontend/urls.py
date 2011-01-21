@@ -16,6 +16,7 @@ urlpatterns = patterns('',
     (r'^control/updatedb$', 'frontend.views.updatedb'),
     (r'^control/next$', 'frontend.views.next'),
     (r'^ajax/mpd_status$', 'frontend.views.ajax_mpd_status'),
+    (r'^ajax/search$', 'frontend.views.ajax_search'),
 
     # login stuff
     (r'^accounts/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
