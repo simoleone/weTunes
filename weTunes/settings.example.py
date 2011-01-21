@@ -112,7 +112,7 @@ INSTALLED_APPS = (
 #        ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 AUTHENTICATION_BACKENDS = (
 #    'django_auth_ldap.backend.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend'
+    'django.contrib.auth.backends.ModelBackend',
 )
 
 # MPD SETTINGS
