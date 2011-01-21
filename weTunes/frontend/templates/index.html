@@ -1,6 +1,6 @@
+{% extends "base.html" %}
 
-
-
+{% block content %}
 Currently playing: {{song}}
 
 Next up:
@@ -10,3 +10,5 @@ Next up:
         <tr><td>{{forloop.counter}}</td><td>{{s.artist}}</td><td>{{s.title}}</td><td>{{s.votes}}</td><td><a href="/vote/{{s.id}}">+</a></tr>
     {% endfor %}
 </table>
+
+{% endblock content %}

@@ -26,6 +26,10 @@ def vote(request):
     return False
 
 @login_required
+def unvote(request):
+    return False
+
+@login_required
 def changevolume(request):
     return False
 
