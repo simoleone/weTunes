@@ -113,3 +113,8 @@ AUTHENTICATION_BACKENDS = (
 #    'django_auth_ldap.backend.LDAPBackend',
     'django.contrib.auth.backends.ModelBackend'
 )
+
+# MPD SETTINGS
+MPD_HOST = "localhost"
+MPD_PORT = "6600"
+MPD_PASSWORD = None
