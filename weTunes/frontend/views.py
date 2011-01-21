@@ -50,6 +50,12 @@ def ajax_search(request):
     c = MPC().search(request.POST['field'], request.POST['value'])
     return HttpResponse(json.dumps(c))
 
+"Creates a block from provided file list"
+@login_required
+def ajax_createblock(request):
+    block = json.loads(request.POST.keys()[0])
+    return HttpResponse("OK")
+
 @login_required
 def vote(request, filename):
     Vote.objects.get_or_create(user = request.user.username, filename = filename, played = False)

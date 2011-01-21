@@ -6,7 +6,7 @@
   function process_results(data) {
     $("#searchresults").html("");
     for (s in data) {
-      $("#searchresults").append("<li class='song resultsong'>"+data[s].title+"-"+data[s].artist+"-"+(data[s].album == "Unknown" ? "-" : data[s].album)+"</li>");
+      $("#searchresults").append("<li class='song resultsong'><span class='songfilemeta'>"+data[s].file+"</span>"+data[s].title+"-"+data[s].artist+"-"+(data[s].album == "Unknown" ? "-" : data[s].album)+"</li>");
     }
   }
 
@@ -33,12 +33,12 @@
     }
 
     function add_to_block(event, ui) {
-        $( "<li class='song blocksong'></li>" ).text( ui.draggable.text() ).appendTo( this );
+        $( "<li class='song blocksong'></li>" ).html( ui.draggable.html() ).appendTo( this );
         ui.draggable.remove();
     }
 
     function add_to_results(event, ui) {
-        $( "<li class='song resultsong'></li>" ).text( ui.draggable.text() ).appendTo( this );
+        $( "<li class='song resultsong'></li>" ).html( ui.draggable.html() ).appendTo( this );
         ui.draggable.remove();
     }
 
@@ -58,7 +58,16 @@
 
     $(".sortable").sortable();
 
-    $("#saveblock").button();
+    $("#saveblock").button().
+      click(function(){
+        var blockfiles = $("#blockbuilder .songfilemeta").map(function(){return $(this).text();});
+        $.ajax({
+          type: "POST",
+          url: "/ajax/createblock",
+          data: JSON.stringify(blockfiles),
+          success: function(){$("#blockbuilder .song").remove();}
+        }); // ajax
+    });
 
   }); // doc ready
 </script>
