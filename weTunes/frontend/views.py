@@ -47,7 +47,8 @@ def setvolume(request, level):
 
 @login_required
 def playpause(request):
-    MPC().pause()
+    if MPC().status()['state'] == 'stop':
+        MPC().play()
+    else:
+        MPC().pause()
     return index(request)
-
-
