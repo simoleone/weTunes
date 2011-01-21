@@ -4,9 +4,9 @@
 
 <script type="text/javascript">
   function process_results(data) {
-    $("#searchresults").html("<tr><th>Title</th><th>Artist</th><th>Album</th><th>Votes</th><th>Vote</th></tr>");
+    $("#searchresults").html("");
     for (s in data) {
-      $("#searchresults").append("<tr><td>"+data[s].title+"</td><td>"+data[s].artist+"</td><td>"+data[s].album+"</td><td>"+data[s].votes+"</td><td><a href='/vote/"+data[s].file+"'>+</a></tr>");
+      $("#searchresults").append("<li class='song resultsong'>"+data[s].title+"-"+data[s].artist+"-"+(data[s].album == "Unknown" ? "-" : data[s].album)+"</li>");
     }
   }
 
@@ -31,11 +31,47 @@
       $("#searchform input[name=value]").val(value);
       $("#searchform").submit();
     }
+
+    function add_to_block(event, ui) {
+        $( "<li class='song blocksong'></li>" ).text( ui.draggable.text() ).appendTo( this );
+        ui.draggable.remove();
+    }
+
+    function add_to_results(event, ui) {
+        $( "<li class='song resultsong'></li>" ).text( ui.draggable.text() ).appendTo( this );
+        ui.draggable.remove();
+    }
+
+    $("#blockbuilder").droppable({
+      accept: '.resultsong',
+      tolerance: 'intersect',
+      revert: 'invalid',
+      drop: add_to_block,
+    });
+
+    $("#searchresults").droppable({
+      accept: '.blocksong',
+      tolerance: 'intersect',
+      revert: 'invalid',
+      drop: add_to_results,
+    });
+
+    $(".sortable").sortable();
+
+    $("#saveblock").button();
+
   }); // doc ready
 </script>
 
+<div class="lefthalf">
 <h2>Search results:</h2>
-<table id="searchresults">
-</table>
+<ul id="searchresults" class="sortable">
+</ul>
+</div>
 
+<div class="righthalf">
+<div id="saveblock" style="width:50px; background: #ffffff; min-height: 50px; margin-top: 150px; color: #000000;"></div>
+<ul id="blockbuilder" class="sortable">
+</ul>
+</div>
 {% endblock content %}
