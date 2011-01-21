@@ -1,5 +1,83 @@
+<script type="text/javascript">
+  function ajax_update()
+  {
+      $.ajax({
+        url:"/ajax/mpd_status",
+        dataType: 'json',
+        success: update_ui
+      });
+  }
+
+  function update_ui(data)
+  {
+    // update volume displays
+    $("#volumeslider").slider("option", "value", data["volume"]);
+
+    // update play/pause button
+    var icon = data["state"] == "play" ? "ui-icon-pause" : "ui-icon-play";
+    $("#playpausebutton").button({
+      text:false,
+      icons: {
+        primary: icon
+      },
+    });
+
+    // update progress displays
+    $("#progressbar").progressbar("option", "value", 100*(data["elapsed"]/data["cursong"]["time"]));
+    var d = new Date(data["elapsed"]*1000);
+    $("#elapsedtime").html(d.getUTCMinutes() + ":" + String('00'+d.getUTCSeconds()).slice(-2));
+    d = new Date(data["cursong"]["time"]*1000);
+    $("#totaltime").html(d.getUTCMinutes() + ":" + String('00'+d.getUTCSeconds()).slice(-2));
+
+    // update song info displays
+    $("#cursong-title").html(data["cursong"]["title"]);
+    $("#cursong-artist").html(data["cursong"]["artist"]);
+  }
+
+  $(document).ready(function() {
+
+    $("#volumeslider").slider({
+      max:100,
+      min:0,
+      orientation:'vertical',
+      value: 0, 
+      stop: function(event, ui) { $.ajax({url:"/setvolume/"+ui.value});}
+    });
+
+    $("#playpausebutton").button({
+      text:false,
+      icons: {
+        primary: "ui-icon-stop"
+      }
+    })
+    .click(function(){
+      $.ajax({
+        url:"/playpause"
+      });
+    });
+
+    $("#progressbar").progressbar({
+      value: 0
+    });
+    
+    // perform population of values
+    var t = setInterval("ajax_update()", 1000);
+  });
+</script>
+
+{{ percentplayed }}
+
 <div id="status">
-  <span id="volume">{{ volume }}</span>
-  <span id="elapsed">{{ elapsed }} / {{ cursong.time }}</span>
-  <span id="song">{{ cursong.artist }} - {{ cursong.album }} - {{ cursong.title }}</span>
+  <div id="volumeslider" style="position: absolute; right: 5px; bottom: 2px;"></div>
+
+  <div id="playpausebutton" style="position: absolute; top: 5px; left: 5px; height:15px; width: 15px;"></div>
+  <div id="progressbar" style="position: absolute; top: 5px; right: 2px; width: 240px; height: 15px;"></div>
+  <div id="timedisplay" style="position:absolute; left: 75px; top: 7px; color: black;">
+    <span id="elapsedtime">{{ elapsed_pretty }}</span>/<span id="totaltime">{{ cursong.time }}</span>
+  </div>
+
+  <div id="songdisplay" style="position: absolute; left: 3px; top: 30px; width: 80%; text-align: center;">
+    <span id="cursong-title" style="display: block; font-size: 1.5em; font-style: bold;"></span>
+    <span id="cursong-artist" style="display: block; font-style: italic; font-size: 1em;"></span>
+  </div>
 </div>

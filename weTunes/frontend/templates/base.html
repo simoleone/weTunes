@@ -6,11 +6,15 @@
 <head>
   <link rel="stylesheet" href="static/style.css" />
   <title>weTunes {% block title %}{% endblock %}</title>
+  <link rel="stylesheet" href="static/css/smoothness/jquery-ui-1.8.8.custom.css" />
+  <script type="text/javascript" src="static/js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="static/js/jquery-ui-1.8.8.custom.min.js"></script>
 </head>
 
 <body>
+  {% mpd_status %}
+
   <div id="header">
-    {% mpd_status %}
   </div>
 
   <div id="content">

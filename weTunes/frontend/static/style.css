@@ -1,0 +1,31 @@
+body
+{
+  background: #333333;
+  color: #ffffff;
+}
+
+div#status 
+{
+  position: fixed;
+  background: #666633;
+  border: 1px solid #336666;
+  width: 275px;
+  height: 150px;
+  right: 10px;
+  top: 10px;
+  font-size: .75em;
+  font-style: sans-serif;
+}
+
+/*
+div#status #volumeslider
+{
+  background: #888888;
+}
+
+div#status #volumeslider a.ui-slider-handle
+{
+  background: url("/static/img/jquery/volumeLogo.gif") no-repeat 50% 50%;
+  border: none;
+}
+*/

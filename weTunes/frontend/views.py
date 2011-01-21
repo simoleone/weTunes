@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from frontend.lib.mpc import MPC
 from frontend.lib.queue import Queue
 from frontend.models import Vote
+import json
 
 def index(request):
     t = loader.get_template('index.html')
@@ -29,6 +30,19 @@ def search(request, field, value):
         'results': results,
     })
     return HttpResponse(t.render(c))
+
+"Returns JSON data on the current state of mpd"
+def ajax_mpd_status(request):
+    # first set some sane defaults
+    c = {}
+    c['elapsed'] = 0
+    c['cursong'] = {'time':1}
+
+    # give them real values
+    c.update(MPC().status())
+    c['cursong'].update(MPC().currentsong())
+
+    return HttpResponse(json.dumps(c))
 
 @login_required
 def vote(request, filename):

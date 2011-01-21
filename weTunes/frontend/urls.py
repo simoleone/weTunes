@@ -11,6 +11,7 @@ urlpatterns = patterns('',
     (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
     (r'^playpause$', 'frontend.views.playpause'),
     (r'^updatedb$', 'frontend.views.updatedb'),
+    (r'^ajax/mpd_status$', 'frontend.views.ajax_mpd_status'),
 
     # login stuff
     (r'^accounts/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
