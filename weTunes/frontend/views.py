@@ -52,3 +52,8 @@ def playpause(request):
     else:
         MPC().pause()
     return index(request)
+
+@login_required
+def updatedb(request):
+    MPC().update()
+    return index(request)

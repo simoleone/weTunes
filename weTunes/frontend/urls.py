@@ -9,10 +9,11 @@ urlpatterns = patterns('',
     (r'^search/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.search'),
     (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
     (r'^playpause$', 'frontend.views.playpause'),
+    (r'^updatedb$', 'frontend.views.updatedb'),
 
     # login stuff
-    (r'^account/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
-    (r'^account/logout$', 'django.contrib.auth.views.logout', {'template_name': 'account/logout.html'}),
+    (r'^accounts/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
+    (r'^accounts/logout$', 'django.contrib.auth.views.logout', {'template_name': 'account/logout.html'}),
 
     # default
     (r'^$', 'frontend.views.index'),
