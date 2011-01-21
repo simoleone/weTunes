@@ -3,9 +3,14 @@ from frontend.lib.mpc import MPC
 from datetime import datetime
 
 class Queue:
+    __instance = None
+
     def __init__(self):
+        if Queue.__instance:
+            return Queue.__instance
         self.queue = None
         self.playlist = None
+        Queue.__instance = self
 
     def get_playlist(self):
         self.get_queue()
@@ -88,3 +93,8 @@ class Queue:
         else:
             self.tracks[v.filename] = set(v.user)
 
+    def save_queue(self):
+        self.get_queue()
+        MPD().clear()
+        for filename in self.queue:
+            MPD().findadd('file', filename)

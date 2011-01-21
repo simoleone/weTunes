@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 from frontend.lib.mpc import MPC
 from frontend.lib.queue import Queue
+from frontend.models import Vote
 
 def index(request):
     t = loader.get_template('index.html')
@@ -22,16 +23,18 @@ def search(request):
     return False
 
 @login_required
-def vote(request):
-    return False
+def vote(request, filename):
+    Vote.get_or_create(user = request.user.username, filename = filename, played = False)
+    Queue().save_queue()
 
 @login_required
 def unvote(request):
     return False
 
 @login_required
-def changevolume(request):
-    return False
+def setvolume(request, level):
+    MPC().setvol(level)
+    return index(request)
 
 @login_required
 def playpause(request):
