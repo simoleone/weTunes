@@ -56,6 +56,18 @@
       });
     });
 
+    $("#nextbutton").button({
+      text:false,
+      icons: {
+        primary: "ui-icon-seek-next"
+      }
+    })
+    .click(function(){
+      $.ajax({
+        url:"/control/next"
+      });
+    });
+
     $("#progressbar").progressbar({
       value: 0
     });
@@ -65,15 +77,14 @@
   });
 </script>
 
-{{ percentplayed }}
-
 <div id="status">
   <div id="volumeslider" style="position: absolute; right: 5px; bottom: 2px;"></div>
 
   <div id="playpausebutton" style="position: absolute; top: 5px; left: 5px; height:15px; width: 15px;"></div>
-  <div id="progressbar" style="position: absolute; top: 5px; right: 2px; width: 240px; height: 15px;"></div>
+  <div id="nextbutton" style="position: absolute; top: 5px; left: 25px; height:15px; width: 15px;"></div>
+  <div id="progressbar" style="position: absolute; top: 5px; right: 2px; width: 220px; height: 15px;"></div>
   <div id="timedisplay" style="position:absolute; left: 75px; top: 7px; color: black;">
-    <span id="elapsedtime">{{ elapsed_pretty }}</span>/<span id="totaltime">{{ cursong.time }}</span>
+    <span id="elapsedtime"></span>/<span id="totaltime"></span>
   </div>
 
   <div id="songdisplay" style="position: absolute; left: 3px; top: 30px; width: 80%; text-align: center;">
