@@ -6,7 +6,8 @@ urlpatterns = patterns('',
     (r'^vote/(?P<filename>.*)$', 'frontend.views.vote'),
     (r'^unvote/(?P<filename>.*)$', 'frontend.views.unvote'),
     (r'^search/(?P<terms>.*)$', 'frontend.views.search'),
-    (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.changevolume'),
+    (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
+    (r'^playpause$', 'frontend.views.playpause'),
 
     # login stuff
     (r'^account/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),
