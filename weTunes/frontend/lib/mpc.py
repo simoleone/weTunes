@@ -1,4 +1,4 @@
-from mpd import MPDClient, CommandError
+from mpd import MPDClient, CommandError, ConnectionError
 from socket import error as SocketError
 
 from django.conf import settings
@@ -18,6 +18,13 @@ class MPC:
 
     "Create an mpdclient using default connection"
     def __init__(self):
+        # attempt an operation on existing client to make sure it's alive
+        try:
+            if MPC.__client:
+                MPC.__client.status()
+        except ConnectionError, SocketError:
+            MPC.__client = None
+
         # instantiate the client if necessary
         if not MPC.__client:
             MPC.__client = MPDClient()
