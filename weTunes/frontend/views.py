@@ -19,7 +19,10 @@ def index(request):
     })
     return HttpResponse(t.render(c))
 
-def search(request, field, value):
+def search(request, field = None, value = None):
+    if 'field' in request.REQUEST and 'value' in request.REQUEST:
+        field = request.REQUEST['field']
+        value = request.REQUEST['value']
     # field can be 'artist', 'title', or 'album', 'any'
     # this is garunteed by routing and so isn't checked
     t = loader.get_template('search.html')
