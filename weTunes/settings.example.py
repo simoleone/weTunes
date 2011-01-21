@@ -1,4 +1,6 @@
 # Django settings for weTunes project.
+# This is a baseline configuration for local testing.
+# It can easily be modified for production use.
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -11,8 +13,8 @@ MANAGERS = ADMINS
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '',                      # Or path to database file if using sqlite3.
+        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'wetunes.sqlite',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -95,14 +97,19 @@ INSTALLED_APPS = (
     # 'django.contrib.admindocs',
 )
 
+
 # authenticate against ldap but allow us to overlay groups
 # and permissions
-AUTH_LDAP_SERVER_URI = "ldap://ldap.example.com"
-AUTH_LDAP_BIND_DN = ""
-AUTH_LDAP_BIND_PASSWORD = ""
-AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
-        ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
+# XXX: UNCOMMENT THIS FOR PRODUCTION USE WITH LDAP
+
+#import ldap
+#from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
+#AUTH_LDAP_SERVER_URI = "ldap://ldap.example.com"
+#AUTH_LDAP_BIND_DN = ""
+#AUTH_LDAP_BIND_PASSWORD = ""
+#AUTH_LDAP_USER_SEARCH = LDAPSearch("ou=users,dc=example,dc=com",
+#        ldap.SCOPE_SUBTREE, "(uid=%(user)s)")
 AUTHENTICATION_BACKENDS = (
-    'django_auth_ldap.backend.LDAPBackend',
-    'django.contrib.auth.backends.ModelBackend',
+#    'django_auth_ldap.backend.LDAPBackend',
+    'django.contrib.auth.backends.ModelBackend'
 )
