@@ -1,8 +1,8 @@
 from django.template import Context, loader
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
-import frontend.lib.mpc
-import forntend.lib.queue
+from frontend.lib.mpc import MPC
+from frontend.lib.queue import Queue
 
 def index(request):
     t = loader.get_template('index.html')
@@ -14,7 +14,7 @@ def index(request):
     c = Context({
         'song': song,
         'volume': volume,
-        'playlist', playlist
+        'playlist': playlist
     })
     return HttpResponse(t.render(c))
 

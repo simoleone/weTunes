@@ -1,5 +1,6 @@
-import frontend.models
+from frontend.models import Vote
 from frontend.lib.mpc import MPC
+from datetime import datetime
 
 class Queue:
     def __init__(self):
@@ -7,12 +8,8 @@ class Queue:
         self.playlist = None
 
     def get_playlist(self):
-        if self.playlist is not None:
-            return self.playlist
-        for filename in queue:
-
+        self.get_queue()
         return self.playlist
-
 
     def get_queue(self):
         if self.queue is not None:
@@ -88,6 +85,6 @@ class Queue:
         filenames_voted_up.add(v.filename)
         if v.filename in self.tracks:
             self.tracks[v.filename].add(v.user)
-        else
+        else:
             self.tracks[v.filename] = set(v.user)
 

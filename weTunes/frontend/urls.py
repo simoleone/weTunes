@@ -1,11 +1,12 @@
 from django.conf.urls.defaults import *
 
-# Uncomment the next two lines to enable the admin:
-# from django.contrib import admin
-# admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'', include('weTunes.frontend.urls')),
+    (r'^vote/(?P<filename>.*)$', 'frontend.views.vote'),
+    (r'^unvote/(?P<filename>.*)$', 'frontend.views.unvote'),
+    (r'^search/(?P<terms>.*)$', 'frontend.views.search'),
+    (r'^setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),
+    (r'', 'frontend.views.index'),
     # Example:
     # (r'^weTunes/', include('weTunes.foo.urls')),
 
