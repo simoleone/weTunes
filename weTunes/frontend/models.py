@@ -6,6 +6,9 @@ class Vote(models.Model):
     block = models.ForeignKey('Block')
     user = models.CharField(max_length = 128)
     created = models.DateTimeField(auto_now_add = True)
+
+    class Meta:
+        unique_together = (("block", "user"),)
     
 class Block(models.Model):
     length = models.IntegerField()

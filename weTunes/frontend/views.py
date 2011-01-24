@@ -10,12 +10,10 @@ import json
 
 def index(request):
     song = MPC().currentsong()
-    playlist = Queue().get_playlist()
-    volume = MPC().status()['volume']
+    playlist = MPC().playlistinfo()
 
     c = Context({
         'song': song,
-        'volume': volume,
         'playlist': playlist,
         'username': request.user.username,
     })
@@ -68,15 +66,15 @@ def ajax_createblock(request):
     return HttpResponse("OK")
 
 @login_required
-def vote(request, filename):
-    Vote.objects.get_or_create(user = request.user.username, filename = filename, played = False)
-    Queue().save_queue()
-    MPC().play()
-    return index(request)
+def vote(request, blockid):
+    try:
+        b = Block.objects.get(id=blockid)
+    except Block.DoesNotExist:
+        return HttpResponse("No such block")
 
-@login_required
-def unvote(request):
-    return False
+    Vote.objects.get_or_create(user = request.user.username, block = b)
+    Queue().save_queue()
+    return index(request)
 
 @login_required
 def setvolume(request, level):
