@@ -44,3 +44,8 @@ class Track(models.Model):
         if self.block.track_set.all().count() == 0:
             self.block.vote_set.delete()
             self.block.delete()
+
+"""A class for keeping internal state. Simple key-value store"""
+class StateVar(models.Model):
+    key = models.CharField(max_length=128)
+    val = models.CharField(max_length=1024)

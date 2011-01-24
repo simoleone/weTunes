@@ -1,4 +1,4 @@
-from frontend.models import Vote, Block, Track
+from frontend.models import Vote, Block, Track, StateVar
 from frontend.lib.mpc import MPC
 from datetime import datetime
 
@@ -57,15 +57,25 @@ class Queue:
     def __clean_playlist(self):
         status = MPC().status()
         plinfo = MPC().playlistinfo()
+        playtime = int(MPC().stats()['playtime'])
+        try:
+            old_playtime = StateVar.objects.get(key='playtime')
+        except StateVar.DoesNotExist: # fresh db?
+            old_playtime = StateVar(key='playtime', val=str(playtime))
+            old_playtime.save()
 
         if status['playlistlength'] == '0':
             # no queue has been synced to mpd yet
             return None
         elif not status.has_key('songid'):
-            # either play has not started, or something is wrong
-            #  we'll assume play hasn't started and return the first song
-            #  since we know the playlist is non-zero in length
-            return plinfo[0]['id']
+            # either play has not started, or the play queue was finished
+            #  if play hasn't started, we'll return the first song
+            if playtime <= int(old_playtime.val):
+                return plinfo[0]['id']
+            #  otherwise, we'll nuke the mpd queue and return None
+            else:
+                status['songid'] = None
+
 
         # delete everything up to the current song
         for song in plinfo:
@@ -75,4 +85,6 @@ class Queue:
             MPC().deleteid(songid)
             Track.objects.filter(playlist_id = songid).delete()
 
+        old_playtime.val = str(playtime)
+        old_playtime.save()
         return status['songid']
