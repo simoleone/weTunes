@@ -2,17 +2,58 @@
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-  <link rel="stylesheet" href="static/style.css" />
   <title>weTunes {% block title %}{% endblock %}</title>
-  <link rel="stylesheet" href="static/css/smoothness/jquery-ui-1.8.8.custom.css" />
-  <script type="text/javascript" src="static/js/jquery-1.4.4.min.js"></script>
-  <script type="text/javascript" src="static/js/jquery-ui-1.8.8.custom.min.js"></script>
+
+  <link rel="stylesheet" href="/static/css/smoothness/jquery-ui-1.8.8.custom.css" />
+  <script type="text/javascript" src="/static/js/jquery-1.4.4.min.js"></script>
+  <script type="text/javascript" src="/static/js/jquery-ui-1.8.8.custom.min.js"></script>
+
+  <script type="text/javascript" src="/static/weTunes.js"></script>
+  <link rel="stylesheet" href="/static/weTunes.css" />
 </head>
 
 <body>
-  {% include "mpd_controller.html" %}
-  {% include "search_box.html" %}
   <div id="header">
+
+
+    <a href="/"><img id="logo" src="/static/img/logo.png" alt="weTunes" /></a>
+
+
+    {% if user.is_authenticated %}
+      <span id="loginlink"><a href="/accounts/logout">{{ user.username }}</a></span>
+    {% else %}
+      <span id="loginlink"><a href="/accounts/login">Login</a></span>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div id="searchbox">
+      <form method="post" action="/search">
+        {% csrf_token %}
+        <input type="text" name="searchterm" value="Search" />
+      </form>
+    </div>
+    {% endif %}
+
+    <div id="playerstatus">
+      <div id="statusbar">
+        {% if user.is_authenticated %}
+        <div id="playpausebutton"></div>
+        <div id="nextbutton"></div>
+        {% endif %}
+        <div id="npprogressbar"></div>
+        <span class="nptime" id="nptime">0:00</span>
+        <span class="nptime" id="nptotal">0:00</span>
+      </div>
+      <div id="nptrack">
+        <span id="nptitle">Title</span>
+        <span id="npartist">Artist</span>
+      </div>
+    </div>
+
+    {% if user.is_authenticated %}
+    <div id="volumeslider"></div>
+    {% endif %}
+
   </div>
 
   <div id="content">
@@ -20,6 +61,7 @@
   </div>
 
   <div id="footer">
+    <a href="https://github.com/simoleone/weTunes">Copyright &copy; 2011 Alex Paul &amp; Simo Leone</a>
   </div>
 </body>
 </html>

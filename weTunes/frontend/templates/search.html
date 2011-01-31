@@ -2,86 +2,10 @@
 
 {% block content %}
 
-<script type="text/javascript">
-  function process_results(data) {
-    $("#searchresults").html("");
-    for (s in data) {
-      $("#searchresults").append("<li class='song resultsong'><span class='songfilemeta'>"+data[s].file+"</span>"+data[s].title+"-"+data[s].artist+"-"+(data[s].album == "Unknown" ? "-" : data[s].album)+"</li>");
-    }
-  }
-
-  $(document).ready(function() {
-    $("#searchform").submit(function() {
-      $.ajax({
-        type: "POST",
-        url: "/ajax/search",
-        data: $("#searchform").serialize(),
-        success: process_results,
-        dataType: "json"
-      }); // ajax
-      return false;
-    }); // searchsubmit click
-
-    // check if we were posted to this page in the first place,
-    // and thus need to prefill and make the ajax call right away
-    var field = "{{field}}";
-    var value = "{{value}}";
-    if (field.length > 0 && value.length > 0) {
-      $("#searchform select[name=field]").val(field);
-      $("#searchform input[name=value]").val(value);
-      $("#searchform").submit();
-    }
-
-    function add_to_block(event, ui) {
-        $( "<li class='song blocksong'></li>" ).html( ui.draggable.html() ).appendTo( this );
-        ui.draggable.remove();
-    }
-
-    function add_to_results(event, ui) {
-        $( "<li class='song resultsong'></li>" ).html( ui.draggable.html() ).appendTo( this );
-        ui.draggable.remove();
-    }
-
-    $("#blockbuilder").droppable({
-      accept: '.resultsong',
-      tolerance: 'intersect',
-      revert: 'invalid',
-      drop: add_to_block,
-    });
-
-    $("#searchresults").droppable({
-      accept: '.blocksong',
-      tolerance: 'intersect',
-      revert: 'invalid',
-      drop: add_to_results,
-    });
-
-    $(".sortable").sortable();
-
-    $("#saveblock").button().
-      click(function(){
-        var arr = [];
-        $("#blockbuilder .songfilemeta").each(function(){arr.push($(this).text());});
-        $.ajax({
-          type: "POST",
-          url: "/ajax/createblock",
-          data: JSON.stringify(arr),
-          success: function(){$("#blockbuilder .song").remove();}
-        }); // ajax
-    });
-
-  }); // doc ready
-</script>
-
-<div class="lefthalf">
-<h2>Search results:</h2>
-<ul id="searchresults" class="sortable">
-</ul>
+<div id="searchresults">
 </div>
 
-<div class="righthalf">
-<div id="saveblock" style="width:50px; background: #ffffff; min-height: 50px; margin-top: 150px; color: #000000;"></div>
-<ul id="blockbuilder" class="sortable">
-</ul>
+<div id="playlistcreator">
 </div>
-{% endblock content %}
+
+{% endblock %}

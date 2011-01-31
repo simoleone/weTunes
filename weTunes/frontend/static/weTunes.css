@@ -1,0 +1,259 @@
+body
+{
+  padding: 0px;
+  margin: 0 auto;
+  width: 1000px;
+  border-left: 1px solid #024c8e;
+  border-right: 1px solid #024c8e;
+  font-family: Verdana, Ariel, sans-serif;
+  color: #024c8e;
+  font-size: 16px;
+}
+
+a:link, a:visited, a:active, a:hover
+{
+  color: #024c8e;
+  text-decoration: none;
+}
+
+a:hover
+{
+  color: #0577e1;
+}
+
+#header
+{
+  z-index: 100;
+  background: #ffffff;
+  position: fixed;
+  height: 125px;
+  width: 1000px;
+}
+
+#logo
+{
+  top: 17px;
+  left: 17px;
+  position: absolute;
+  border: 0;
+  padding: 0;
+  margin: 0;
+}
+
+#loginlink
+{
+  position: absolute;
+  font-style: italic;
+  right: 4px;
+  top: 2px;
+}
+
+#searchbox
+{
+  position: absolute;
+  right: 25px;
+  top: 50px;
+}
+
+#searchbox input
+{
+  border: none;
+  border-bottom: 1px solid #024c8e;
+  text-align: center;
+  color: #024c8e;
+  font-style: italic;
+  font-size: 1em;
+  width: 200px;
+}
+
+#playerstatus
+{
+  width: 350px;
+  height: 100%;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+}
+
+#statusbar
+{
+  position: absolute;
+  width: 100%;
+  top: 20px;
+}
+
+#nptrack
+{
+  width: 100%;
+  position: absolute;
+  bottom: 15px;
+}
+
+#nptitle
+{
+  display: block;
+  font-size: 1.5em;
+}
+
+#npartist
+{
+  display: block;
+  font-size: 1em;
+  font-style: italic;
+}
+
+.nptime
+{
+  font-size: .75em;
+  position: absolute;
+  top: 22px;
+}
+
+#nptime
+{
+  left: 0px;
+}
+
+#nptotal
+{
+  right: 0px;
+}
+
+#npprogressbar
+{
+  background: url("/static/img/jquery/ui-progressbar-background.png") repeat-x scroll 50% 50%;
+  height: 1em;
+  border: none;
+  position: absolute;
+  top: 10px;
+  width: 100%;
+}
+
+#npprogressbar .ui-progressbar-value 
+{
+  background: url("/static/img/jquery/ui-progressbar-value-background.png") no-repeat right center;
+  border: none;
+}
+
+.ui-button
+{
+  background: none;
+  border: none;
+}
+
+.ui-button-icon-only
+{
+  width: 1em;
+}
+
+.ui-icon
+{
+  height: 11px;
+  width: 11px;
+}
+
+.ui-state-default .ui-icon
+{
+  background-image: url("/static/img/jquery/ui-icons-wetunes-sprite.png");
+}
+
+.ui-state-hover .ui-icon
+{
+  background-image: url("/static/img/jquery/ui-icons-wetunes-sprite-hover.png");
+}
+
+.ui-icon-wetunes-play
+{
+  background-position: -12px 0px;
+}
+
+.ui-icon-wetunes-pause
+{
+  background-position: -23px 0px;
+}
+
+.ui-icon-wetunes-next
+{
+  background-position: 0px 0px;
+}
+
+#playpausebutton
+{
+  position: absolute;
+  left: 2px;
+  top: 0px;
+}
+
+#nextbutton
+{
+  position: absolute;
+  right: 0px;
+  top: 0px;
+}
+
+#volumeslider
+{
+  position: absolute;
+  height: 60px;
+  width: 16px;
+  background: url("/static/img/jquery/ui-slider-volume-background.png") no-repeat 0 0;
+  border: none;
+  top: 40px;
+  left: 695px;
+}
+
+#volumeslider .ui-slider-handle
+{
+  background: url("/static/img/jquery/ui-slider-volume-handle.png") no-repeat 50% 50%;
+  border: none;
+  left: 13px;
+}
+
+#content
+{
+  padding-top: 175px;
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+}
+
+#footer
+{
+  width: 100%;
+  text-align: center;
+  font-size: .75em;
+}
+
+div.playlist_block
+{
+  position: relative;
+  border: 1px solid #024c8e;
+  width: 650px;
+  margin: 0 auto;
+  text-align: center;
+  padding-bottom: 1.5em;
+  padding-top: .5em;
+}
+
+div.playlist_block span.playlist_track
+{
+  font-size: 1.1em;
+  display: block;  
+}
+
+div.playlist_block span.playlist_author
+{
+  font-style: italic;
+  position: absolute;
+  left: 3px;
+  bottom: 3px;
+}
+
+div.playlist_block span.playlist_vote
+{
+  font-weight: bold;
+  font-size: 1.5em;
+  position: absolute;
+  bottom: 3px;
+  right: 3px;
+}
