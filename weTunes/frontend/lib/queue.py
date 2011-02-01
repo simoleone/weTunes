@@ -15,6 +15,8 @@ class Queue:
                 queue[i].playlist_id = MPC().addid(queue[i].filename, i)
                 queue[i].save()
 
+        return queue
+
     """Compute the current queue based on votes for blocks and
        currently playing block.
 

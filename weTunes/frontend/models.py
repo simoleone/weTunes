@@ -12,6 +12,7 @@ class Vote(models.Model):
     
 class Block(models.Model):
     length = models.IntegerField()
+    author = models.CharField(max_length = 128)
 
     def priority_score(self, when = None):
         # score = sum(wait time) / length

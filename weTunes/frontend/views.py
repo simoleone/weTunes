@@ -7,6 +7,7 @@ from frontend.lib.mpc import MPC
 from frontend.lib.queue import Queue
 from frontend.models import Vote, Block, Track
 import json
+from itertools import groupby
 
 def index(request):
     song = MPC().currentsong()
@@ -64,6 +65,16 @@ def ajax_createblock(request):
     Vote(block=b, user=request.user.username).save()
     Queue().save_queue()
     return HttpResponse("OK")
+
+""" Returns the current playlist in the format:
+    [{author:name, id:id, tracks:[tracks]}, ...]
+"""
+def ajax_playlist(request):
+    returnlist = []
+    for block, tracks in groupby(Queue().save_queue(),lambda x : x.block):
+        returnlist += [{'author':block.author, 'id':block.id, 'tracks':tracks}]
+    return HttpResponse(json.dumps(returnlist))
+
 
 @login_required
 def vote(request, blockid):

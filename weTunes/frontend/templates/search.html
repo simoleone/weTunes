@@ -1,11 +1,26 @@
 {% extends "base.html" %}
 
-{% block content %}
+
+{% block headerfixed %}
+<div id="playlistcreator">
+	<span class="boxheader" id="playlistboxheader">Playlist</span>
+	<div id="playlistcreator_auto"></div>
+	<a href="#" id="submitbutton">Submit</a>
+</div>
 
 <div id="searchresults">
+	<span class="boxheader" id="searchboxheader">Search Results</span>
+	<span id="sortbylinks">Sort by :
+		<a id="sortby_artist" href="#">Artist</a>&nbsp;*&nbsp;
+		<a id="sortby_album" href="#">Album</a>&nbsp;*&nbsp;
+		<a id="sortby_title" href="#">Title</a>
+	</span>
+	<div id="searchresults_auto"></div>
 </div>
+{% endblock %}
 
-<div id="playlistcreator">
-</div>
+{% block content %}
+
+
 
 {% endblock %}

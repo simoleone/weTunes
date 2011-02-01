@@ -209,12 +209,12 @@ a:hover
   left: 13px;
 }
 
-#content
+.content
 {
   padding-top: 175px;
   position: relative;
   width: 100%;
-  min-height: 600px;
+  min-height: 505px;
 }
 
 #footer
@@ -235,7 +235,7 @@ div.playlist_block
   padding-top: .5em;
 }
 
-div.playlist_block span.playlist_track
+span.playlist_track
 {
   font-size: 1.1em;
   display: block;  
@@ -256,4 +256,82 @@ div.playlist_block span.playlist_vote
   position: absolute;
   bottom: 3px;
   right: 3px;
+}
+
+#searchresults
+{
+  border: 1px solid #024c8e;
+  min-height: 500px;
+  position: absolute;
+  width: 450px;
+  left: 25px;
+  top: 175px;
+  background: #ffffff;
+}
+
+#playlistcreator
+{
+  background: #ffffff;
+  border: 1px solid #024c8e;
+  position: absolute;
+  width: 450px;
+  right: 25px;
+  top: 175px;
+}
+
+.boxheader
+{
+  font-size: 1.25em;
+  font-style: italic;
+  position: absolute;
+  top: -1.3em;
+}
+
+#searchboxheader
+{
+  left: 0px;
+}
+
+#playlistboxheader
+{
+  right: 0px;
+}
+
+#searchresults #sortbylinks
+{
+  font-style: italic;
+  font-size: .9em;
+  display: block;  
+}
+
+#searchresults #sortbylinks
+{
+  font-style: italic;
+  font-size: .9em;
+  float: left;
+  clear: both;
+}
+
+#playlistcreator #submitbutton
+{
+  font-style: italic;
+  font-size: .9em;
+  display: block;  
+  float: right;
+  clear: both;
+}
+
+#playlistcreator_auto
+{
+	min-height: 5em;
+}
+
+#searchresults_auto
+{
+	position: absolute;
+	height: 475px;
+	bottom: 0px;
+	width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
 }

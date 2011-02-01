@@ -17,6 +17,7 @@ urlpatterns = patterns('',
     (r'^ajax/mpd_status$', 'frontend.views.ajax_mpd_status'),
     (r'^ajax/search$', 'frontend.views.ajax_search'),
     (r'^ajax/createblock$', 'frontend.views.ajax_createblock'),
+    (r'^ajax/playlist$', 'frontend.views.ajax_playlist'),
 
     # login stuff
     (r'^accounts/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),

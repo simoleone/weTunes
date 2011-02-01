@@ -54,9 +54,11 @@
     <div id="volumeslider"></div>
     {% endif %}
 
+    {% block headerfixed %}{% endblock %}
+
   </div>
 
-  <div id="content">
+  <div id="main_content" class="content">
     {% block content %}{% endblock %}
   </div>
 
