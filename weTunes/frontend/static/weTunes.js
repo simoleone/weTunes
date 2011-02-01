@@ -7,46 +7,6 @@ function header_ajax()
   });
 }
 
-function playlist_ajax()
-{
-  $.ajax({
-    url:"/ajax/playlist",
-  dataType: 'json',
-  success: playlist_update
-  });
-}
-
-function playlist_update(data)
-{
-  $("#tmp_content").remove();
-  $("body").prepend("<div class='content' id='tmp_content' style='display: none;'></div>");
-  tmp_content = $("#tmp_content");
-  
-  for(var i=0; i<data.length ; i++) {
-    var tmp = "<div class='playlist_block'>";
-    for (var j=0; j<data[i]['tracks'].length ; j++) {
-      tmp += "<span class='playlist_track'>";
-      tmp += data[i]['tracks'][j]['artist'] + " - ";
-      tmp += data[i]['tracks'][j]['album'] + " - ";
-      tmp += data[i]['tracks'][j]['title'] + " - ";
-      tmp += "</span>";
-    }
-
-    tmp += "<span class='playlist_author'>";
-    tmp += data[i]['author'];
-    tmp += "</span>";
-
-    // TODO: add logic for whether voted or not
-    //       also shorten if it doesnt fit
-    tmp += "<span class='playlist_vote'><a href='#'>";
-    tmp += data[i]['voted'] ? "-" : "+" ;
-    tmp += "</a></span>";
-
-    tmp += "</div>";
-    tmp_content.append(tmp);
-  }
-}
-
 function header_update(data)
 {
 
@@ -121,8 +81,6 @@ $("#nextbutton").button({text: false, icons:{primary:'ui-icon-wetunes-next'}})
   });
 });
 
-
-
 //////////////////////////////////////
 // volume slider
 //////////////////////////////////////
@@ -135,7 +93,6 @@ $("#volumeslider").slider({ orientation: 'vertical',
 // set timers to do constant player updates
 // TODO: maybe use a comet call instead
 var t = setInterval("header_ajax()", 1000);
-var t = setInterval("playlist_ajax()", 5000);
     
 }); // document ready
 

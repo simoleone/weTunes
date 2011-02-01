@@ -1,15 +1,5 @@
 {% extends "base.html" %}
 
-{% block content %}
-
-{% for b in blocks %}
-<div class="playlist_block">
-  <span class="playlist_track"></span>
-  <span class="playlist_author"></span>
-  {% if user.is_authenticated %}
-    <span class="playlist_vote"><a href="#">+</a></span>
-  {% endif %}
-</div>
-{% endfor %}
-
+{% block htmlhead %}
+<script type="text/javascript" src="/static/playlist.js"></script>
 {% endblock %}

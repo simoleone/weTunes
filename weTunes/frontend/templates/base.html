@@ -10,6 +10,7 @@
 
   <script type="text/javascript" src="/static/weTunes.js"></script>
   <link rel="stylesheet" href="/static/weTunes.css" />
+  {% block htmlhead %}{% endblock %}
 </head>
 
 <body>
@@ -45,8 +46,8 @@
         <span class="nptime" id="nptotal">0:00</span>
       </div>
       <div id="nptrack">
-        <span id="nptitle">Title</span>
-        <span id="npartist">Artist</span>
+        <span id="nptitle"></span>
+        <span id="npartist"></span>
       </div>
     </div>
 
