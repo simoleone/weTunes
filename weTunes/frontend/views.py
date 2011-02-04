@@ -22,10 +22,9 @@ def index(request):
 
 def search(request):
     c = Context()
-    if 'field' in request.REQUEST and 'value' in request.REQUEST:
+    if 'searchterm' in request.POST:
         c = Context({
-            'field': request.REQUEST['field'],
-            'value': request.REQUEST['value'],
+            'searchterm': request.POST['searchterm'],
         })
     return render_to_response("search.html", c, context_instance=RequestContext(request))
 

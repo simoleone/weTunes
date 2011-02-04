@@ -301,13 +301,6 @@ div.playlist_block span.playlist_vote
 {
   font-style: italic;
   font-size: .9em;
-  display: block;  
-}
-
-#searchresults #sortbylinks
-{
-  font-style: italic;
-  font-size: .9em;
   float: left;
   clear: both;
 }
@@ -334,4 +327,9 @@ div.playlist_block span.playlist_vote
 	width: 100%;
 	overflow-x: hidden;
 	overflow-y: scroll;
+}
+
+#initsearchterm
+{
+    display: none;
 }

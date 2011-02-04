@@ -28,7 +28,7 @@
 
     {% if user.is_authenticated %}
     <div id="searchbox">
-      <form method="post" action="/search">
+      <form id="searchform" method="post" action="/search">
         {% csrf_token %}
         <input type="text" name="searchterm" value="Search" />
       </form>
