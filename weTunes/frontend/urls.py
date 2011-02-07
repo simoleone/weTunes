@@ -3,9 +3,6 @@ from django.conf import settings
 
 
 urlpatterns = patterns('',
-    # actual frontend stuff
-    (r'^vote/(?P<blockid>.*)$', 'frontend.views.vote'),
-    # important to preserve the garunteed field because it is not checked again
     (r'^search/?$', 'frontend.views.search'),
     (r'^search/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.search'),
 
@@ -18,6 +15,8 @@ urlpatterns = patterns('',
     (r'^ajax/search$', 'frontend.views.ajax_search'),
     (r'^ajax/createblock$', 'frontend.views.ajax_createblock'),
     (r'^ajax/playlist$', 'frontend.views.ajax_playlist'),
+    (r'^ajax/vote/(?P<blockid>.*)$', 'frontend.views.ajax_vote'),
+    (r'^ajax/unvote/(?P<blockid>.*)$', 'frontend.views.ajax_unvote'),
 
     # login stuff
     (r'^accounts/login$', 'django.contrib.auth.views.login', {'template_name': 'account/login.html'}),

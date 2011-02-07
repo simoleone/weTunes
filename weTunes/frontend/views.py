@@ -68,14 +68,25 @@ def ajax_playlist(request):
     returnlist = []
     for block, tracks in groupby(Queue().save_queue(),lambda x : x.block):
         trackdata = []
+        voted = False
+
         for t in tracks:
             trackdata += [{'artist':t.artist, 'album':t.album, 'title': t.title}]
-        returnlist += [{'author':block.author, 'id':block.id, 'tracks':trackdata}]
+
+        if request.user.is_authenticated():
+            try:
+                v = Vote.objects.get(user = request.user.username, block = block)
+                voted = v.id
+            except Vote.DoesNotExist:
+                pass
+
+
+        returnlist += [{'author':block.author, 'id':block.id, 'voted':voted, 'tracks':trackdata}]
     return HttpResponse(json.dumps(returnlist))
 
 
 @login_required
-def vote(request, blockid):
+def ajax_vote(request, blockid):
     try:
         b = Block.objects.get(id=blockid)
     except Block.DoesNotExist:
@@ -83,7 +94,18 @@ def vote(request, blockid):
 
     Vote.objects.get_or_create(user = request.user.username, block = b)
     Queue().save_queue()
-    return index(request)
+    return HttpResponse("OK")
+
+@login_required
+def ajax_unvote(request, blockid):
+    try:
+        v = Vote.objects.get(block=blockid, user=request.user.username)
+        v.delete()
+    except Vote.DoesNotExist:
+        return HttpResponse("No such vote")
+
+    Queue().save_queue()
+    return HttpResponse("OK")
 
 @login_required
 def setvolume(request, level):
