@@ -49,7 +49,7 @@ def ajax_search(request):
 @csrf_exempt
 def ajax_createblock(request):
     songfiles = json.loads(request.raw_post_data)
-    b = Block(length=0)
+    b = Block(length=0, author=request.user.username)
     b.save()
     i=0
     for s in songfiles:
