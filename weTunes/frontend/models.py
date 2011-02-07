@@ -40,6 +40,10 @@ class Track(models.Model):
     filename = models.CharField(max_length = 1024)
     track_number = models.IntegerField()
     playlist_id = models.IntegerField(null = True)
+    # these are purely for caching so we dont hit mpd as often
+    artist = models.CharField(max_length = 1024)
+    album = models.CharField(max_length = 1024)
+    title = models.CharField(max_length = 1024)
 
     def delete(self):
         super.delete()

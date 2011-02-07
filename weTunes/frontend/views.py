@@ -71,7 +71,10 @@ def ajax_createblock(request):
 def ajax_playlist(request):
     returnlist = []
     for block, tracks in groupby(Queue().save_queue(),lambda x : x.block):
-        returnlist += [{'author':block.author, 'id':block.id, 'tracks':tracks}]
+        trackdata = []
+        for t in tracks:
+            trackdata += [{'artist':t.artist, 'album':t.album, 'title': t.title}]
+        returnlist += [{'author':block.author, 'id':block.id, 'tracks':trackdata}]
     return HttpResponse(json.dumps(returnlist))
 
 

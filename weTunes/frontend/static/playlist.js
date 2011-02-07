@@ -36,7 +36,7 @@ function playlist_update(data)
     tmp += "</div>";
     tmp_content.append(tmp);
   }
-  $("div.content").fadeToggle();
+  $("div.content").toggle();
   $("#main_content").remove();
   tmp_content.attr("id", "main_content");
 }
