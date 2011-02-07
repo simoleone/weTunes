@@ -10,12 +10,7 @@ import json
 from itertools import groupby
 
 def index(request):
-    song = MPC().currentsong()
-    playlist = MPC().playlistinfo()
-
     c = Context({
-        'song': song,
-        'playlist': playlist,
         'username': request.user.username,
     })
     return render_to_response("index.html", c, context_instance=RequestContext(request))
