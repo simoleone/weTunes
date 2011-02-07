@@ -305,31 +305,64 @@ div.playlist_block span.playlist_vote
   clear: both;
 }
 
-#playlistcreator #submitbutton
+#playlistcreator #submitbutton, #playlistcreator #clearbutton
 {
   font-style: italic;
   font-size: .9em;
   display: block;  
   float: right;
-  clear: both;
+}
+
+#playlistcreator #clearbutton
+{
+  float: left;
 }
 
 #playlistcreator_auto
 {
-	min-height: 5em;
+  min-height: 5em;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 #searchresults_auto
 {
-	position: absolute;
-	height: 475px;
-	bottom: 0px;
-	width: 100%;
-	overflow-x: hidden;
-	overflow-y: scroll;
+  position: absolute;
+  height: 475px;
+  bottom: 0px;
+  width: 100%;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
 #initsearchterm
 {
-    display: none;
+  display: none;
+}
+
+.searchitem
+{
+  font-size: 1.1em;
+  cursor: move;
+}
+
+.searchitem .artist
+{
+}
+
+.searchitem .album
+{
+}
+
+.searchitem .title
+{
+}
+
+.searchitem .filename
+{
+  display: none;
 }

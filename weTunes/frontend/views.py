@@ -58,7 +58,8 @@ def ajax_createblock(request):
     b.save()
     i=0
     for s in songfiles:
-        Track(block=b, filename=s, track_number=i).save()
+        dat = MPC().search('file', s)[0]
+        Track(block=b, filename=s, track_number=i, artist=dat['artist'], album=dat['album'], title=dat['title']).save()
         i=i+1
     b.update_length()
     Vote(block=b, user=request.user.username).save()

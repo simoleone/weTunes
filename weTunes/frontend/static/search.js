@@ -10,11 +10,23 @@ function search_ajax(term) {
 
 function search_process(data) {
   $("#searchresults_auto").fadeOut("fast", function() {
-    $("#searchresults_auto").html("");
+    $("#searchresults_auto").children().remove();
     for (s in data) {
-      // TODO: store track, file, album, artist in a way that can be sorted and retrieved
-      $("#searchresults_auto").append("<span class='playlist_track'>"+data[s].title+"</span>");
+      var html = "<li class='searchitem'>";
+      html += "<span class='artist'>"+ data[s].artist +"</span>";
+      html += "<span class='album'>"+ data[s].album +"</span>";
+      html += "<span class='title'>"+ data[s].title +"</span>";
+      html += "<span class='filename'>"+ data[s].file +"</span>";
+      html += "</li>";
+      $("#searchresults_auto").append(html);
     }
+    $(".searchitem").draggable({ scroll: false,
+                                 revert: 'invalid',
+                                 helper: 'clone',
+                                 appendTo: '#playlistcreator_auto',
+                                 zIndex:'500',
+                                 connectToSortable: '#playlistcreator_auto'
+                               });
     $("#searchresults_auto").fadeIn();
   });
 }
@@ -48,12 +60,26 @@ $(document).ready(function(){
     sortsearch('title');
   });
 
-  // wire up the playlist submission button
+  // wire up the playlist submission and clear buttons
   $("#submitbutton").click(function(){
-    // TODO: configure submission via ajax call
+    var arr = [];
+    $("#playlistcreator_auto .searchitem .filename").each(function(){arr.push($(this).text());});
+    $.ajax({
+      type: "POST",
+      url: "/ajax/createblock",
+      data: JSON.stringify(arr),
+      success: function(){$("#clearbutton").click();}
+    }); // ajax
   });
-  
-  // TODO: set up drag and drop support
+  $("#clearbutton").click(function(){
+    $("#playlistcreator_auto").children().fadeOut("fast", function(){
+      $(this).remove();
+    });
+  });  
+
+  // set up the playlist creator
+  $("#playlistcreator_auto").sortable();
+
   // TODO: set up reordering support for playlist
 
 }); // document ready
