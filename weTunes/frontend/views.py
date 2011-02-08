@@ -52,6 +52,10 @@ def ajax_createblock(request):
     b = Block(length=0, author=request.user.username)
     b.save()
     i=0
+
+    if len(songfiles) == 0:
+        return HttpResponse("No Songs. Wtf mate?")
+
     for s in songfiles:
         dat = MPC().search('file', s)[0]
         Track(block=b, filename=s, track_number=i, artist=dat['artist'], album=dat['album'], title=dat['title']).save()
