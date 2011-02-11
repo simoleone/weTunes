@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_exempt
 from frontend.lib.mpc import MPC
 from frontend.lib.queue import Queue
-from frontend.models import Vote, Block, Track
+from frontend.models import Vote, Block, Track, StateVar
 import json
 from itertools import groupby
 
@@ -41,7 +41,7 @@ def ajax_search(request):
     if not request.POST['field'] in ['artist','title','album','any']:
         raise HttpResponseBadRequest()
 
-    c = MPC().search(request.POST['field'], request.POST['value'])
+    c = MPC().search(request.POST['field'], str(request.POST['value']))
     return HttpResponse(json.dumps(c))
 
 "Returns 20 random tracks"
@@ -65,7 +65,7 @@ def ajax_createblock(request):
         return HttpResponse("No Songs. Wtf mate?")
 
     for s in songfiles:
-        dat = MPC().search('file', s)[0]
+        dat = MPC().search('file', str(s))[0]
         Track(block=b, filename=s, track_number=i, artist=dat['artist'], album=dat['album'], title=dat['title']).save()
         i=i+1
     b.update_length()
@@ -78,7 +78,7 @@ def ajax_createblock(request):
 """
 def ajax_playlist(request):
     returnlist = []
-    for block, tracks in groupby(Queue().save_queue(),lambda x : x.block):
+    for block, tracks in groupby(Queue().compute_queue(),lambda x : x.block):
         trackdata = []
         voted = False
 
@@ -141,3 +141,13 @@ def updatedb(request):
 def next(request):
     MPC().next()
     return index(request)
+
+@login_required
+def unfuckdb(request):
+    Vote.objects.all().delete()
+    Block.objects.all().delete()
+    Track.objects.all().delete()
+    StateVar.objects.all().delete()
+    MPC().clear()
+    return index(request)
+

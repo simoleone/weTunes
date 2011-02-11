@@ -66,7 +66,23 @@ function search_process(data) {
 }
 
 function sortsearch(by) {
-  // TODO: implement a sort that looks sexy
+  var q = "." + by
+  // animated bubblesort
+  var parent_node = $("#searchresults_auto");
+  var swapped = true;
+  while (swapped)
+  {
+    swapped = false;
+    var items = $(".searchitem", parent_node);
+    for (i = 1; i < items.length; i++) {
+      cmpr = [$(q, items[i - 1]).text(), $(q, items[i]).text()].sort();
+      if (cmpr[0] != cmpr[1] && cmpr[0] == $(q, items[i]).text()) {
+        swapped = true;
+        $(items[i]).detach();
+        $(items[i]).insertBefore(items[i - 1]);
+      }
+    }
+  }
 }
 
 $(document).ready(function(){

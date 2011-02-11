@@ -6,7 +6,7 @@ class Queue:
 
     """Sync the current calculated queue to mpd's queue"""
     def save_queue(self):
-        queue = self.__compute_queue()
+        queue = self.compute_queue()
     
         for i in range(len(queue)):
             if queue[i].playlist_id is not None:
@@ -22,7 +22,7 @@ class Queue:
 
        returns a list of Tracks
     """
-    def __compute_queue(self):
+    def compute_queue(self):
         # 1. determine current block
         # 2. calculate scores for all other blocks
         # 3. output tracks in order: current block, then remaining blocks by descending score
