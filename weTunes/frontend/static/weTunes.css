@@ -320,7 +320,7 @@ div.playlist_block span.playlist_vote
 
 #playlistcreator_auto
 {
-  min-height: 5em;
+  min-height: 100px;
   list-style-type: none;
   margin: 0;
   padding: 0;
@@ -346,20 +346,35 @@ div.playlist_block span.playlist_vote
 
 .searchitem
 {
-  font-size: 1.1em;
   cursor: move;
+  height: 30px;
+  width: 430px;
+  position: relative;
 }
 
 .searchitem .artist
 {
+  position: absolute;
+  left: 2px;
+  bottom: 2px;
+  font-size: 11px;
 }
 
 .searchitem .album
 {
+  position: absolute;
+  right: 2px;
+  bottom: 2px;
+  font-size: 9px;
+  text-align: right;
 }
 
 .searchitem .title
 {
+  position: absolute;
+  left: 2px;
+  top: 2px;
+  font-size: 14px;
 }
 
 .searchitem .filename

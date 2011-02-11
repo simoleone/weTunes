@@ -6,6 +6,10 @@
 
 {% block headerfixed %}
 <span id="initsearchterm">{{ searchterm }}</span>
+<span id="fillrandom"><a id="fill_random" href="#">Suggest</a></span>
+{% endblock %}
+
+{% block content %}
 
 <div id="playlistcreator">
 	<span class="boxheader" id="playlistboxheader">Playlist</span>
@@ -23,10 +27,4 @@
 	</span>
 	<ul id="searchresults_auto"></ul>
 </div>
-{% endblock %}
-
-{% block content %}
-
-
-
 {% endblock %}

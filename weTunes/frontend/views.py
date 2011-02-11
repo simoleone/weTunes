@@ -44,6 +44,14 @@ def ajax_search(request):
     c = MPC().search(request.POST['field'], request.POST['value'])
     return HttpResponse(json.dumps(c))
 
+"Returns 20 random tracks"
+def ajax_random(request):
+    count = 20
+    if 'count' in request.POST:
+        count = int(request.POST['count'])
+    c = MPC().random_songs(count)
+    return HttpResponse(json.dumps(c))
+
 "Creates a block from provided file list"
 @login_required
 @csrf_exempt

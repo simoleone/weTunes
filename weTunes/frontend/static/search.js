@@ -8,17 +8,41 @@ function search_ajax(term) {
   }); // ajax
 }
 
+function browse_ajax(field, term) {
+  $.ajax({
+    type: "POST",
+    url: "/ajax/search",
+    data: {"field":field, "value":term},
+    success: search_process,
+    dataType: "json"
+  }); // ajax
+}
+
+
+function random_ajax() {
+  $.ajax({
+    type: "POST",
+    url: "/ajax/random",
+    success: search_process,
+    dataType: "json"
+  }); // ajax
+}
+
+function markup_song(s) {
+  var html = "<li class='searchitem'>";
+  html += "<span class='artist'><a href='#' class='browse_artist'>"+ s.artist +"</a></span>";
+  html += "<span class='album'><a href='#' class='browse_album'>"+ s.album +"</a></span>";
+  html += "<span class='title'>"+ s.title +"</span>";
+  html += "<span class='filename'>"+ s.file +"</span>";
+  html += "</li>";
+  return html;
+}
+
 function search_process(data) {
   $("#searchresults_auto").fadeOut("fast", function() {
     $("#searchresults_auto").children().remove();
     for (s in data) {
-      var html = "<li class='searchitem'>";
-      html += "<span class='artist'>"+ data[s].artist +"</span>";
-      html += "<span class='album'>"+ data[s].album +"</span>";
-      html += "<span class='title'>"+ data[s].title +"</span>";
-      html += "<span class='filename'>"+ data[s].file +"</span>";
-      html += "</li>";
-      $("#searchresults_auto").append(html);
+      $("#searchresults_auto").append(markup_song(data[s]));
     }
     $(".searchitem").draggable({ scroll: false,
                                  revert: 'invalid',
@@ -27,6 +51,16 @@ function search_process(data) {
                                  zIndex:'500',
                                  connectToSortable: '#playlistcreator_auto'
                                });
+    $(".browse_artist").each(function(i, e){
+     $(e).click(function(){
+       browse_ajax('artist', $(e).text());
+     })
+    });
+    $(".browse_album").each(function(i, e){
+     $(e).click(function(){
+       browse_ajax('album', $(e).text());
+     })
+    });
     $("#searchresults_auto").fadeIn();
   });
 }
@@ -41,12 +75,18 @@ $(document).ready(function(){
   if ($("#initsearchterm").text().length > 0) {
     $("#searchbox input[name=searchterm]").val($("#initsearchterm").text());
     search_ajax($("#initsearchterm").text());
+  } else {
+    random_ajax();
   }
   
   // rewire the search box to be an ajax call instead
   $("#searchform").submit(function(){
     search_ajax($("#searchbox input[name=searchterm]").val());
     return false;
+  });
+
+  $("#fill_random").click(function(){
+    random_ajax();
   });
 
   // wire up the search buttons

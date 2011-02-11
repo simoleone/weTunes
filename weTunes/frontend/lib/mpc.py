@@ -1,5 +1,6 @@
 from mpd import MPDClient, CommandError, ConnectionError
 from socket import error as SocketError
+import random
 
 from django.conf import settings
 
@@ -43,6 +44,13 @@ class MPC:
                 MPC.__client.disconnect()
                 MPC.__client = None
                 raise MPCError("Could not auth : " + str(e))
+
+    def random_songs(self, count = 20):
+       all_songs = MPC.__client.listallinfo()
+       return random.sample(all_songs, count)
+       
+
+       pass
 
     def __getattr__(self, name):
         return lambda *args : getattr(MPC.__client, name)(*args)
