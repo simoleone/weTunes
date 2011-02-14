@@ -65,23 +65,39 @@ function search_process(data) {
   });
 }
 
+// does an animated insertion sort
 function sortsearch(by) {
-  var q = "." + by
-  // animated bubblesort
+  var q = "." + by;
+  return sortsearch_helper(q, 0);
+}
+
+function sortsearch_helper(q, pos) {
   var parent_node = $("#searchresults_auto");
-  var swapped = true;
-  while (swapped)
-  {
-    swapped = false;
-    var items = $(".searchitem", parent_node);
-    for (i = 1; i < items.length; i++) {
-      cmpr = [$(q, items[i - 1]).text(), $(q, items[i]).text()].sort();
-      if (cmpr[0] != cmpr[1] && cmpr[0] == $(q, items[i]).text()) {
-        swapped = true;
-        $(items[i]).detach();
-        $(items[i]).insertBefore(items[i - 1]);
-      }
+  var items = $(".searchitem", parent_node);
+
+  if (pos >= items.length) {
+    return;
+  }
+
+  var cur = pos;
+  var cur_val = $(q, items[cur]).text();
+  for(i=pos+1; i < items.length ; i++) {
+    var i_val = $(q, items[i]).text();
+    if(i_val < cur_val) {
+      cur_val = i_val;
+      cur = i;
     }
+  }
+
+  if (cur != pos) {
+    var tmp = $(items[cur]);
+    tmp.hide('slide',{},125,function(){
+      tmp.detach();
+      tmp.insertBefore(items[pos]);
+      tmp.show('slide',{},125, function(){sortsearch_helper(q, ++pos)});
+    });
+  } else {
+    sortsearch_helper(q, ++pos);
   }
 }
 
