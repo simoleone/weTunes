@@ -7,25 +7,28 @@ function playlist_ajax()
   });
 }
 
+function markup_song(s) {
+  var html = "<li class='searchitem'>";
+  html += "<span class='artist'><a href='#' class='browse_artist'>"+ s['artist'] +"</a></span>";
+  html += "<span class='album'><a href='#' class='browse_album'>"+ s['album'] +"</a></span>";
+  html += "<span class='title'>"+ s['title'] +"</span>";
+  html += "</li>";
+  return html;
+}
+
 function playlist_update(data)
 {
   $("#tmp_content").remove();
   $("<div class='content' id='tmp_content' style='display: none;'></div>").insertAfter("#main_content");
   tmp_content = $("#tmp_content");
   
-
-  // TODO: shorten track strings if they're uber long
   for(var i=0; i<data.length ; i++) {
-    var tmp = "<div class='playlist_block'>";
+    var tmp = "<div class='playlist_block'><ul>";
     for (var j=0; j<data[i]['tracks'].length ; j++) {
-      tmp += "<span class='playlist_track'>";
-      tmp += data[i]['tracks'][j]['artist'] + " - ";
-      tmp += data[i]['tracks'][j]['album'] + " - ";
-      tmp += data[i]['tracks'][j]['title'];
-      tmp += "</span>";
+      tmp += markup_song(data[i]['tracks'][j]);
     }
 
-    tmp += "<span class='playlist_author'>";
+    tmp += "</ul><span class='playlist_author'>";
     tmp += data[i]['author'];
     tmp += "</span>";
 

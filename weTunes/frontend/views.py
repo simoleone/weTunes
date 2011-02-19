@@ -66,11 +66,19 @@ def ajax_createblock(request):
 
     for s in songfiles:
         dat = MPC().search('file', str(s))[0]
+        if 'album' not in dat:
+            dat['album'] = ''
+        if 'artist' not in dat:
+            dat['artist'] = ''
+        if 'title' not in dat:
+            dat['title'] = ''
         Track(block=b, filename=s, track_number=i, artist=dat['artist'], album=dat['album'], title=dat['title']).save()
         i=i+1
     b.update_length()
     Vote(block=b, user=request.user.username).save()
     Queue().save_queue()
+    if MPC().status()['state'] == 'stop':
+        MPC().play()
     return HttpResponse("OK")
 
 """ Returns the current playlist in the format:

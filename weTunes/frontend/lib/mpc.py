@@ -48,9 +48,6 @@ class MPC:
     def random_songs(self, count = 20):
        all_songs = MPC.__client.listallinfo()
        return random.sample(all_songs, count)
-       
-
-       pass
 
     def __getattr__(self, name):
         return lambda *args : getattr(MPC.__client, name)(*args)

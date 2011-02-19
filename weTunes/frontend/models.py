@@ -22,7 +22,7 @@ class Block(models.Model):
         votes = self.vote_set.all()
         for v in votes:
             score += (when - v.created)
-        self.priority = score.total_seconds() / float(self.length)
+        self.priority = score.total_seconds() / (1 + float(self.length))
         return self.priority
 
     def update_length(self):
