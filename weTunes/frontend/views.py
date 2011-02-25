@@ -15,6 +15,13 @@ def index(request):
     })
     return render_to_response("index.html", c, context_instance=RequestContext(request))
 
+def browse(request, field = 'any', value = None):
+    c = Context({
+        'browsefield': field,
+        'browsevalue': value
+    })
+    return render_to_response("search.html", c, context_instance=RequestContext(request))
+
 def search(request):
     c = Context()
     if 'searchterm' in request.POST:
@@ -99,9 +106,11 @@ def ajax_playlist(request):
                 voted = v.id
             except Vote.DoesNotExist:
                 pass
-
-
-        returnlist += [{'author':block.author, 'id':block.id, 'voted':voted, 'tracks':trackdata}]
+        voters = []
+        for v in block.vote_set.all():
+            voters += [v.user]
+        
+        returnlist += [{'author':block.author, 'id':block.id, 'voted':voted, 'tracks':trackdata, 'voters':voters}]
     return HttpResponse(json.dumps(returnlist))
 
 
@@ -123,6 +132,16 @@ def ajax_unvote(request, blockid):
         v.delete()
     except Vote.DoesNotExist:
         return HttpResponse("No such vote")
+
+    try:
+        # if there are no more votes for the block, delete it
+        block = Block.objects.get(id=blockid)
+        if block.vote_set.count() == 0:
+            for track in block.track_set.all():
+                track.delete()
+            block.delete()
+    except Block.DoesNotExist:
+        pass
 
     Queue().save_queue()
     return HttpResponse("OK")

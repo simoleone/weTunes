@@ -49,7 +49,10 @@ class Queue:
 
         # add remaining tracks to the queue
         for b in blocks_to_score:
-            play_queue += list(b.track_set.all().order_by('track_number'))
+            if b.track_set.count() == 0:
+                b.delete()
+            else:
+                play_queue += list(b.track_set.all().order_by('track_number'))
 
         return play_queue
 

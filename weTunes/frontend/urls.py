@@ -4,7 +4,7 @@ from django.conf import settings
 
 urlpatterns = patterns('',
     (r'^search/?$', 'frontend.views.search'),
-    (r'^search/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.search'),
+    (r'^browse/(?P<field>(artist|title|album|any))/(?P<value>.*)$', 'frontend.views.browse'),
 
     # control and info
     (r'^control/setvolume/(?P<level>\d{1,3})$', 'frontend.views.setvolume'),

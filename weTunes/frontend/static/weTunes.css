@@ -249,6 +249,11 @@ div.playlist_block span.playlist_author
   bottom: 3px;
 }
 
+.author
+{
+  font-weight: bolder;
+}
+
 div.playlist_block span.playlist_vote
 {
   font-weight: bold;
@@ -344,6 +349,18 @@ div.playlist_block span.playlist_vote
   display: none;
 }
 
+#initbrowsefield, #initbrowsevalue
+{
+  display: none;
+}
+
+.playlistitem
+{
+  height: 30px;
+  width: 430px;
+  position: relative;
+}
+
 .searchitem
 {
   cursor: move;
@@ -352,7 +369,7 @@ div.playlist_block span.playlist_vote
   position: relative;
 }
 
-.searchitem .artist
+.artist
 {
   position: absolute;
   left: 2px;
@@ -360,7 +377,7 @@ div.playlist_block span.playlist_vote
   font-size: 11px;
 }
 
-.searchitem .album
+.album
 {
   position: absolute;
   right: 2px;
@@ -369,7 +386,7 @@ div.playlist_block span.playlist_vote
   text-align: right;
 }
 
-.searchitem .title
+.title
 {
   position: absolute;
   left: 2px;
@@ -377,7 +394,7 @@ div.playlist_block span.playlist_vote
   font-size: 14px;
 }
 
-.searchitem .filename
+.filename
 {
   display: none;
 }

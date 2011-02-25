@@ -2,16 +2,16 @@ function playlist_ajax()
 {
   $.ajax({
     url:"/ajax/playlist",
-  dataType: 'json',
-  success: playlist_update
+    dataType: 'json',
+    success: playlist_update
   });
 }
 
 function markup_song(s) {
-  var html = "<li class='searchitem'>";
-  html += "<span class='artist'><a href='#' class='browse_artist'>"+ s['artist'] +"</a></span>";
-  html += "<span class='album'><a href='#' class='browse_album'>"+ s['album'] +"</a></span>";
-  html += "<span class='title'>"+ s['title'] +"</span>";
+  var html = "<li class='playlistitem'>";
+  html += "<span class='artist'><a href='/browse/artist/" + escape(s['artist']) + "'>"+ s['artist'] +"</a></span>";
+  html += "<span class='album'><a href='/browse/album/" + escape(s['album']) + "'>"+ s['album'] +"</a></span>";
+  html += "<span class='title'><a href='/browse/title/" + escape(s['title']) + "'>"+ s['title'] +"</a></span>";
   html += "</li>";
   return html;
 }
@@ -29,7 +29,12 @@ function playlist_update(data)
     }
 
     tmp += "</ul><span class='playlist_author'>";
-    tmp += data[i]['author'];
+    for (var k=0; k<data[i]['voters'].length; k++) {
+      if (k > 0) tmp += ", ";
+      if (data[i]['voters'][k] == data[i]['author']) tmp += "<span class='author'>";
+      tmp += data[i]['voters'][k];
+      if (data[i]['voters'][k] == data[i]['author']) tmp += "</span>";
+    }
     tmp += "</span>";
 
     tmp += "<span class='playlist_vote'><a href='#' class='votebutton'>";
@@ -57,8 +62,9 @@ function playlist_update(data)
       url = "/ajax/vote/" + blkid;
     }
     $.ajax({
-      url: url
-      });
+      url: url,
+      success: playlist_ajax
+    });
   });
 
   $("div.content").toggle();
@@ -69,7 +75,8 @@ function playlist_update(data)
 
 
 $(document).ready(function(){
-  var t = setInterval("playlist_ajax()", 5000);
+  var t = setInterval("playlist_ajax()", 30000);
+  playlist_ajax();
 }); // document ready
 
 // vim: ft=javascript sw=2 ts=2 et

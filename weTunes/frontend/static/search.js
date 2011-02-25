@@ -107,6 +107,10 @@ $(document).ready(function(){
   if ($("#initsearchterm").text().length > 0) {
     $("#searchbox input[name=searchterm]").val($("#initsearchterm").text());
     search_ajax($("#initsearchterm").text());
+  } else if ($("#initbrowsevalue").text().length > 0) {
+    // if we came to this page from a /browse/<field>/<query>
+    $("#searchbox input[name=searchterm]").val($("#initbrowsevalue").text());
+    browse_ajax($("#initbrowsefield").text(), $("#initbrowsevalue").text());
   } else {
     random_ajax();
   }
@@ -140,7 +144,10 @@ $(document).ready(function(){
       type: "POST",
       url: "/ajax/createblock",
       data: JSON.stringify(arr),
-      success: function(){$("#clearbutton").click();}
+      success: function() {
+        $("#clearbutton").click();
+        header_ajax();
+      }
     }); // ajax
   });
   $("#clearbutton").click(function(){
