@@ -6,8 +6,8 @@ class Queue:
 
     """Sync the current calculated queue to mpd's queue"""
     def save_queue(self):
-        queue = self.compute_queue()
-    
+        queue = self.compute_queue(True)
+
         for i in range(len(queue)):
             if queue[i].playlist_id is not None:
                 MPC().moveid(queue[i].playlist_id, i)
@@ -22,14 +22,21 @@ class Queue:
 
        returns a list of Tracks
     """
-    def compute_queue(self):
+    def compute_queue(self, update=False):
         # 1. determine current block
         # 2. calculate scores for all other blocks
         # 3. output tracks in order: current block, then remaining blocks by descending score
 
         play_queue = []
         blocks_to_score = []
-        cursong_id = self.__clean_playlist()
+        if update:
+            cursong_id = self.__clean_playlist()
+        else:
+            status = MPC().status()
+            if status.has_key('songid'):
+                cursong_id = status['songid']
+            else:
+                cursong_id = None
 
         if cursong_id == None:
             # play queue has never been saved to mpd
@@ -49,10 +56,7 @@ class Queue:
 
         # add remaining tracks to the queue
         for b in blocks_to_score:
-            if b.track_set.count() == 0:
-                b.delete()
-            else:
-                play_queue += list(b.track_set.all().order_by('track_number'))
+            play_queue += list(b.track_set.all().order_by('track_number'))
 
         return play_queue
 

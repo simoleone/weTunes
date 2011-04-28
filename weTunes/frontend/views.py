@@ -133,16 +133,6 @@ def ajax_unvote(request, blockid):
     except Vote.DoesNotExist:
         return HttpResponse("No such vote")
 
-    try:
-        # if there are no more votes for the block, delete it
-        block = Block.objects.get(id=blockid)
-        if block.vote_set.count() == 0:
-            for track in block.track_set.all():
-                track.delete()
-            block.delete()
-    except Block.DoesNotExist:
-        pass
-
     Queue().save_queue()
     return HttpResponse("OK")
 

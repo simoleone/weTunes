@@ -45,6 +45,13 @@ class Track(models.Model):
     album = models.CharField(max_length = 1024)
     title = models.CharField(max_length = 1024)
 
+    def delete(self):
+        super(models.Model, self).delete()
+        # ensure that empty blocks are cleaned up
+        if self.block.track_set.all().count() == 0:
+            self.block.vote_set.delete()
+            self.block.delete()
+
 """A class for keeping internal state. Simple key-value store"""
 class StateVar(models.Model):
     key = models.CharField(max_length=128)

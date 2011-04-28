@@ -130,7 +130,7 @@ $("#nextbutton").button({text: false, icons:{primary:'ui-icon-wetunes-next'}})
 // volume slider
 //////////////////////////////////////
 $("#volumeslider").slider({ orientation: 'vertical',
-  max: 100,
+  max: 60,
   min: 0,
   stop: function(event, ui) { $.ajax({url:"/control/setvolume/"+ui.value});}
 });
